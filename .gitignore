@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+dist/
+tmp
+*.png
+docker/db/mongo-data
+**/.env
+**/mongodb.key
+swagger.json
+src/routes.ts
+**/*.log
