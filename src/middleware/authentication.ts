@@ -98,27 +98,27 @@ async function expressAuthentication(req: express.Request, securityName: string,
           try {
             // const user = undefined;
             const user: IUserModel = await UserService.findById(userId);
-            if (!user) {
-              reject(new AccessDeniedException(userId, `User is not found`));
-            }
-            const { status, roles } = user;
-            if (status === 'blocked') {
-              reject(new AccessDeniedException(userId, `User is blocked`));
-            }
-            if (status != 'active') {
-              reject(new AccessDeniedException(userId, `User is not active`));
-              return;
-            }
-            // further check permissions if provided
-            if (scopes && scopes.length > 0) {
-              const allowedPermissions = getAllowedPermissions(roles);
-              if (user && isAllowed(scopes, allowedPermissions)) {
-                resolve(user);
-              } else {
-                logger.warn(`User ${userId} is not allowed to perform action ${scopes}`);
-                reject(new AccessDeniedException(userId, `Forbidden`));
-              }
-            }
+            // if (!user) {
+            //   reject(new AccessDeniedException(userId, `User is not found`));
+            // }
+            // const { status, roles } = user;
+            // if (status === 'blocked') {
+            //   reject(new AccessDeniedException(userId, `User is blocked`));
+            // }
+            // if (status != 'active') {
+            //   reject(new AccessDeniedException(userId, `User is not active`));
+            //   return;
+            // }
+            // // further check permissions if provided
+            // if (scopes && scopes.length > 0) {
+            //   const allowedPermissions = getAllowedPermissions(roles);
+            //   if (user && isAllowed(scopes, allowedPermissions)) {
+            //     resolve(user);
+            //   } else {
+            //     logger.warn(`User ${userId} is not allowed to perform action ${scopes}`);
+            //     reject(new AccessDeniedException(userId, `Forbidden`));
+            //   }
+            // }
             // res.locals.loggedInUser = user;
             resolve(
               Object.assign(user, {

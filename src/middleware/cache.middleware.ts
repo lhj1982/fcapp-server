@@ -3,14 +3,14 @@ import logger from './logger.middleware';
 import config from '../config';
 // const client = redis.createClient();
 // client.auth(config.cache.password);
-const Redis = require('ioredis');
-const client = new Redis({
-  port: 6379, // Redis port
-  host: '127.0.0.1', // Redis host
-  family: 4, // 4 (IPv4) or 6 (IPv6)
-  password: config.cache.password,
-  db: 0
-});
+// const Redis = require('ioredis');
+// const client = new Redis({
+//   port: 6379, // Redis port
+//   host: '127.0.0.1', // Redis host
+//   family: 4, // 4 (IPv4) or 6 (IPv6)
+//   password: config.cache.password,
+//   db: 0
+// });
 
 export default function cacheMiddleware(duration: number) {
   return (req: any, res: any, next: any) => {

@@ -3,8 +3,6 @@ import { IUserModel } from './user.model';
 import { UserSchema } from './user.schema';
 
 export const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);
-
-import * as bcrypt from 'bcrypt';
 import { nowDate } from '../../../utils/dateUtil';
 
 class UsersRepo {
@@ -35,30 +33,12 @@ class UsersRepo {
 
   async findById(id: string): Promise<IUserModel> {
     // console.log('script ' + mongoose.Types.ObjectId.isValid(id));
-    return await User.findById(id)
-      .populate('roles', ['name', 'permissions'])
-      .populate({
-        path: 'coupons',
-        match: {
-          status: { $in: ['created', 'ready'] },
-          expiredAt: { $gt: nowDate() }
-        }
-      })
-      .populate({
-        path: 'employers',
-        model: 'ShopStaff',
-        populate: {
-          path: 'shop'
-        }
-      })
-      .populate({
-        path: 'members',
-        populate: {
-          path: 'level'
-        }
-      })
-      .select('-password')
+    return await User.findById(id).populate('developments')
       .exec();
+  }
+
+  async findAll(): Promise<IUserModel[]> {
+    return await User.find().populate('developments').exec();
   }
 
   // getAllCourses(options) {
@@ -97,24 +77,24 @@ class UsersRepo {
       .exec();
   }
 
-  async findByUserNameAndPassword(username: string, password: string): Promise<IUserModel> {
-    const user = await User.findOne({ username })
-      .populate('roles', ['name', 'permissions'])
-      .populate({
-        path: 'shopStaffs',
-        model: 'ShopStaff',
-        populate: {
-          path: 'shop'
-        }
-      })
-      .exec();
-    if (user) {
-      if (bcrypt.compareSync(password, user.password)) {
-        return user;
-      }
-    }
-    return null;
-  }
+  // async findByUserNameAndPassword(username: string, password: string): Promise<IUserModel> {
+  //   const user = await User.findOne({ username })
+  //     .populate('roles', ['name', 'permissions'])
+  //     .populate({
+  //       path: 'shopStaffs',
+  //       model: 'ShopStaff',
+  //       populate: {
+  //         path: 'shop'
+  //       }
+  //     })
+  //     .exec();
+  //   if (user) {
+  //     if (bcrypt.compareSync(password, user.password)) {
+  //       return user;
+  //     }
+  //   }
+  //   return null;
+  // }
 
   // async getMostCommissionEntry() {
   //   const commissions = await EventCommission.aggregate([

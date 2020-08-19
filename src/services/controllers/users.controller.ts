@@ -33,6 +33,20 @@ export class UsersController extends GenericController {
   //   return {code: 'SUCCESS', data: response};
   // };
 
+  @Post('/update-developments-images')
+  @Tags('user')
+  @OperationId('updateUserDevelopmentsImages')
+  @Response<IErrorResponse>('400', 'Bad Request')
+  @SuccessResponse('200', 'OK')
+  public async updateDevelopmentsImageUrl(): Promise<IResponse> {
+    try {
+      await UserService.updateDevelopmentsImages();
+      return {code: 'SUCCESS', data: null};
+    } catch (err) {
+      throw err;
+    }
+  }
+
   /**
    * Retrieve user information.
    *
@@ -42,16 +56,17 @@ export class UsersController extends GenericController {
   @Get('/{userId}')
   @Tags('user')
   @OperationId('getUserDetailById')
-  @Security('access_token')
   @Response<IErrorResponse>('400', 'Bad Request')
   @SuccessResponse('200', 'OK')
   public async getUserDetails(@Path('userId') userId: string, @Request() req: any): Promise<IResponse> {
 
     try {
-
-      return { code: 'SUCCESS', data: null };
+      const user = await UserService.findById(userId);
+      return { code: 'SUCCESS', data: user };
     } catch (err) {
       throw err;
     }
   }
+
+
 }

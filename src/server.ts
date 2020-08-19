@@ -92,6 +92,9 @@ const corsOptions = {
 // Configure App
 const app = express();
 
+import { IUserDevelopmentModel } from './data/repositories/user/userDevelopment.model';
+import { UserDevelopmentSchema } from './data/repositories/user/userDevelopment.schema';
+const UserDevelopment: Model<IUserDevelopmentModel> = model<IUserDevelopmentModel>('UserDevelopment', UserDevelopmentSchema, 'userDevelopments');
 // app.use(rateLimiter);
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
