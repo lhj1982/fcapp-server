@@ -58,7 +58,8 @@ class UserService extends GenericService {
     const promises = developments.map(async development => {
       const {id, attributes} = development;
       const imageStr = this.generateImageString(attributes);
-      // console.log(imageStr);
+      const imageBase64Str = await this.converSVGToPNG(imageStr);
+      // console.log(imageBase64Str);
       // process.stdout.write(imageStr);
       const base64Str = Buffer.from(imageStr, 'binary').toString('base64');
       const uploadResp = await FileService.uploadFileBase64(`${id}.svg`, base64Str);
@@ -67,6 +68,28 @@ class UserService extends GenericService {
     return await Promise.all(promises);
   }
 
+  async converSVGToPNG(svgString: string): Promise<any> {
+    const sharp = require("sharp")
+    return new Promise((resolve, reject) => {
+    sharp(svgString)
+      .png()
+      // .resize(60, 60)
+      .toFile("new-file.png")
+      .then(function (info) {
+        console.log(info);
+        resolve(info);
+      })
+      .catch(function (err) {
+        console.log(err);
+        reject(err);
+      })
+    });
+    
+    
+    
+    // return fs.writeFileSync('foo.svg', new Buffer(svgString));
+  }
+  
   generateImageString(attribute: any): string {
     const radar = require('svg-radar-chart')
     const {defending, physical, speed, attacking, technical, mental} = attribute;
