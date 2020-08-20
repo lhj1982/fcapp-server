@@ -20,7 +20,8 @@ export const UserSchema: Schema<IUserModel> = new Schema(
 	],
 	favoritePlayers : [
 		{type: String}
-	]
+	],
+  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
@@ -30,3 +31,4 @@ UserSchema.virtual('developments', {
   localField: '_id',
   foreignField: 'user'
 });
+

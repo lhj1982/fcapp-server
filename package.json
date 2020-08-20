@@ -81,6 +81,7 @@
     "mongoose": "5.7.x",
     "rate-limiter-flexible": "^1.1.1",
     "svg-radar-chart": "^0.2.2",
+    "svg2img": "^0.8.1",
     "tsoa": "^2.4.3",
     "virtual-dom": "^2.1.1",
     "virtual-dom-stringify": "^3.0.1",

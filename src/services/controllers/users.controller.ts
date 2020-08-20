@@ -1,4 +1,4 @@
-import { Route, Path, Example, Get, Post, Put, SuccessResponse, Tags, Body, OperationId, Request, Response, Security } from 'tsoa';
+import { Route, Path, Example, Get, Post, Put, SuccessResponse, Tags, Body, BodyProp, OperationId, Request, Response, Security } from 'tsoa';
 import { IUpdateUserRequest, IAddUserTagRequest, ISubscribeMemberRequest, IRedeemMemberCardRequest } from '../requests';
 import { IResponse, IErrorResponse } from '../responses';
 import GenericController from './generic.controller';
@@ -42,6 +42,21 @@ export class UsersController extends GenericController {
     try {
       await UserService.updateDevelopmentsImages();
       return {code: 'SUCCESS', data: null};
+    } catch (err) {
+      throw err;
+    }
+  }
+  
+  
+  @Post('/compare')
+  @Tags('user')
+  @OperationId('compareUsers')
+  @Response<IErrorResponse>('400', 'Bad Request')
+  @SuccessResponse('200', 'OK')
+  public async compareUsers(@BodyProp('userId1') userId1: string, @BodyProp('userId2') userId2: string, @BodyProp('date1') date1: string, @BodyProp('date2') date2: string): Promise<IResponse> {
+    try {
+      const response = await UserService.compareUsers(userId1, date1, userId2, date2);
+      return {code: 'SUCCESS', data: response};
     } catch (err) {
       throw err;
     }

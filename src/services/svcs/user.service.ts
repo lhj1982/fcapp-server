@@ -45,6 +45,12 @@ class UserService extends GenericService {
       throw err;
     }
   }
+  
+  async compareUsers(userId1: string, date1: string, userId2: string, date2: string): Promise<any> {
+    const development1 = await UserDevelopmentsRepo.findByUserAndDate(userId1, date1);
+    const development2 = await UserDevelopmentsRepo.findByUserAndDate(userId2, date2);
+    
+  }
 
   async updateDevelopmentsImages(): Promise<any> {
     const developments = await UserDevelopmentsRepo.findAll();
