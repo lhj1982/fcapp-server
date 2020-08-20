@@ -6,13 +6,12 @@ const UserDevelopment: Model<IUserDevelopmentModel> = model<IUserDevelopmentMode
 import { nowDate } from '../../../utils/dateUtil';
 
 class UserDevelopmentsRepo {
-
-async findAll():Promise<IUserDevelopmentModel[]> {
-  return await UserDevelopment.find({}).exec();
-}
-async findByUserAndDate(userId: string, date: string): Promise<IUserDevelopmentModel> {
-  return await UserDevelopment.findOne({user: userId ,date}).exec();
-}
+  async findAll(): Promise<IUserDevelopmentModel[]> {
+    return await UserDevelopment.find({}).exec();
+  }
+  async findByUserAndDate(userId: string, date: string): Promise<IUserDevelopmentModel> {
+    return await UserDevelopment.findOne({ user: userId, date }).exec();
+  }
 }
 
 export default new UserDevelopmentsRepo();

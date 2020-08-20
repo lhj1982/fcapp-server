@@ -32,10 +32,12 @@ class UserService extends GenericService {
   async findById(id: string): Promise<any> {
     try {
       const user = await UsersRepo.findById(id);
-      const {developments} = user;
+      const { developments } = user;
       const newDevelopments = developments.map(development => {
-        const {id: developmentId} = development;
-        const tmp = Object.assign(development.toObject(), {url: `http://qfaww9hai.hn-bkt.clouddn.com/${developmentId}.svg`});
+        const { id: developmentId } = development;
+        const tmp = Object.assign(development.toObject(), {
+          url: `http://qfaww9hai.hn-bkt.clouddn.com/${developmentId}.png`
+        });
         // console.log(tmp);
         return tmp;
       });
@@ -45,62 +47,66 @@ class UserService extends GenericService {
       throw err;
     }
   }
-  
+
   async compareUsers(userId1: string, date1: string, userId2: string, date2: string): Promise<any> {
     const development1 = await UserDevelopmentsRepo.findByUserAndDate(userId1, date1);
     const development2 = await UserDevelopmentsRepo.findByUserAndDate(userId2, date2);
-    
   }
 
   async updateDevelopmentsImages(): Promise<any> {
     const developments = await UserDevelopmentsRepo.findAll();
     // console.log(developments);
     const promises = developments.map(async development => {
-      const {id, attributes} = development;
+      const { id, attributes } = development;
       const imageStr = this.generateImageString(attributes);
       const imageBase64Str = await this.converSVGToPNG(imageStr);
       // console.log(imageBase64Str);
       // process.stdout.write(imageStr);
-      const base64Str = Buffer.from(imageStr, 'binary').toString('base64');
-      const uploadResp = await FileService.uploadFileBase64(`${id}.svg`, base64Str);
+      // const base64Str = Buffer.from(imageStr, 'binary').toString('base64');
+      const uploadResp = await FileService.uploadFileBase64(`${id}.png`, imageBase64Str);
       return null;
     });
     return await Promise.all(promises);
   }
 
   async converSVGToPNG(svgString: string): Promise<any> {
-    const sharp = require("sharp")
+    const sharp = require('sharp');
+    // console.log(svgString);
     return new Promise((resolve, reject) => {
-    sharp(svgString)
-      .png()
-      // .resize(60, 60)
-      .toFile("new-file.png")
-      .then(function (info) {
-        console.log(info);
-        resolve(info);
-      })
-      .catch(function (err) {
-        console.log(err);
-        reject(err);
-      })
+      const roundedCorners = Buffer.from(svgString);
+
+      sharp(roundedCorners)
+        .resize(800, 800)
+        // .composite([
+        //   {
+        //     input: roundedCorners,
+        //     blend: 'dest-in'
+        //   }
+        // ])
+        .png()
+        .toBuffer((err, data, info) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
     });
-    
-    
-    
-    // return fs.writeFileSync('foo.svg', new Buffer(svgString));
   }
-  
+
   generateImageString(attribute: any): string {
-    const radar = require('svg-radar-chart')
-    const {defending, physical, speed, attacking, technical, mental} = attribute;
-    const defendingInRatio = defending/20;
-    const physicalInRatio = physical/20;
-    const speedInRatio = speed/20;
-    const attackingInRatio = attacking/20;
-    const technicalInRatio = technical/20;
-    const mentalInRatio = mental/20;
+    const radar = require('svg-radar-chart');
+    const { defending, physical, speed, attacking, technical, mental } = attribute;
+    const defendingInRatio = defending / 20;
+    const physicalInRatio = physical / 20;
+    const speedInRatio = speed / 20;
+    const attackingInRatio = attacking / 20;
+    const technicalInRatio = technical / 20;
+    const mentalInRatio = mental / 20;
     // console.log(mentalInRatio);
-    const chart = radar({
+    const chart = radar(
+      {
         // columns
         defending: `Defending(${defending})`,
         physical: `Physcial(${physical})`,
@@ -108,13 +114,31 @@ class UserService extends GenericService {
         attacking: `Attacking(${attacking})`,
         technical: `Technical(${technical})`,
         mental: `Mental(${mental})`
-    }, [
+      },
+      [
         // data
-        {class: 'iphone', defending: defendingInRatio, physical:  physicalInRatio, speed: speedInRatio, attacking: attackingInRatio, technical: technicalInRatio, mental: mentalInRatio},
-        {class: 'iphone', defending: 1, physical:  1, speed: 1, attacking: 1, technical: 1, mental: 1}
-    ]);
+        {
+          class: 'iphone',
+          defending: defendingInRatio,
+          physical: physicalInRatio,
+          speed: speedInRatio,
+          attacking: attackingInRatio,
+          technical: technicalInRatio,
+          mental: mentalInRatio
+        },
+        {
+          class: 'iphone',
+          defending: 1,
+          physical: 1,
+          speed: 1,
+          attacking: 1,
+          technical: 1,
+          mental: 1
+        }
+      ]
+    );
 
-    const stringify = require('virtual-dom-stringify')
+    const stringify = require('virtual-dom-stringify');
 
     const svg = `
     <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -134,10 +158,9 @@ class UserService extends GenericService {
         </style>
         ${stringify(chart)}
     </svg>
-    `
+    `;
     return svg;
   }
-
 }
 
 export default new UserService();

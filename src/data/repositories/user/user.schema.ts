@@ -9,20 +9,16 @@ export const UserSchema: Schema<IUserModel> = new Schema(
     lastName: {
       type: String
     },
-    age : {type: Number},
-	team : {type: String},
-	preferFoot : {type: String},
-	position : {type: String},
-	height : {type: Number},
-	weight: {type: Number},
-	favoriteTeams : [
-		{type: String}
-	],
-	favoritePlayers : [
-		{type: String}
-	],
-  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }]
-},
+    age: { type: Number },
+    team: { type: String },
+    preferFoot: { type: String },
+    position: { type: String },
+    height: { type: Number },
+    weight: { type: Number },
+    favoriteTeams: [{ type: String }],
+    favoritePlayers: [{ type: String }],
+    friends: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
@@ -31,4 +27,3 @@ UserSchema.virtual('developments', {
   localField: '_id',
   foreignField: 'user'
 });
-

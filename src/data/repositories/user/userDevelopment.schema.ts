@@ -8,7 +8,7 @@ export const UserDevelopmentSchema: Schema<IUserDevelopmentModel> = new Schema(
       type: String,
       required: 'Date is required'
     },
-    attributes:{
+    attributes: {
       defending: {
         type: Number
       },

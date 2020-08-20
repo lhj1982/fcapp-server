@@ -33,12 +33,17 @@ class UsersRepo {
 
   async findById(id: string): Promise<IUserModel> {
     // console.log('script ' + mongoose.Types.ObjectId.isValid(id));
-    return await User.findById(id).populate('developments').populate('friends')
+    return await User.findById(id)
+      .populate('developments')
+      .populate('friends')
       .exec();
   }
 
   async findAll(): Promise<IUserModel[]> {
-    return await User.find().populate('developments').populate('friends').exec();
+    return await User.find()
+      .populate('developments')
+      .populate('friends')
+      .exec();
   }
 
   // getAllCourses(options) {
