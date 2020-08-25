@@ -1,0 +1,19 @@
+
+    <svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <style>
+            .axis {
+                stroke-width: .2;
+            }
+            .scale {
+                stroke-width: .2;
+            }
+            .shape {
+                fill-opacity: .3;
+            }
+            .shape:hover {
+                fill-opacity: .6;
+            }
+        </style>
+        <g transform="translate(50.0000,50.0000)"><g><circle class="scale" fill="none" r="41.66666666666667"></circle><circle class="scale" fill="none" r="27.77777777777778"></circle><circle class="scale" fill="none" r="13.88888888888889"></circle></g><g><polyline class="axis" points="0.0000,0.0000 0.0000,-41.6667"></polyline><polyline class="axis" points="0.0000,0.0000 36.0844,-20.8333"></polyline><polyline class="axis" points="0.0000,0.0000 36.0844,20.8333"></polyline><polyline class="axis" points="0.0000,0.0000 0.0000,41.6667"></polyline><polyline class="axis" points="0.0000,0.0000 -36.0844,20.8333"></polyline><polyline class="axis" points="0.0000,0.0000 -36.0844,-20.8333"></polyline></g><g><path class="shape" d="M0.0000,-4.1667L9.0211,-5.2083L7.2169,4.1667L0.0000,10.4167L-3.6084,2.0833L-14.4338,-8.3333z"></path><path class="shape" d="M0.0000,-41.6667L36.0844,-20.8333L36.0844,20.8333L0.0000,41.6667L-36.0844,20.8333L-36.0844,-20.8333z"></path></g><g><text class="caption" text-anchor="middle" font-size="3" font-family="sans-serif" x="0.0000" y="-47.5000" dy="1.5">Defending(2)</text><text class="caption" text-anchor="middle" font-size="3" font-family="sans-serif" x="41.1362" y="-23.7500" dy="1.5">Physcial(5)</text><text class="caption" text-anchor="middle" font-size="3" font-family="sans-serif" x="41.1362" y="23.7500" dy="1.5">Speed(4)</text><text class="caption" text-anchor="middle" font-size="3" font-family="sans-serif" x="0.0000" y="47.5000" dy="1.5">Attacking(5)</text><text class="caption" text-anchor="middle" font-size="3" font-family="sans-serif" x="-41.1362" y="23.7500" dy="1.5">Technical(2)</text><text class="caption" text-anchor="middle" font-size="3" font-family="sans-serif" x="-41.1362" y="-23.7500" dy="1.5">Mental(8)</text></g></g>
+    </svg>
+    

@@ -76,14 +76,14 @@ class UserService extends GenericService {
       const roundedCorners = Buffer.from(svgString);
 
       sharp(roundedCorners)
-        .resize(800, 800)
+        .resize(100, 100)
         // .composite([
         //   {
         //     input: roundedCorners,
         //     blend: 'dest-in'
         //   }
         // ])
-        .png()
+        .png({quality : 100})
         .toBuffer((err, data, info) => {
           if (err) {
             console.error(err);
